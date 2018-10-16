@@ -1,9 +1,15 @@
 sudo: required
 language: generic
 services: docker
-
 script:
-  # We use the docker image from https://hub.docker.com/r/dxjoke/tectonic-docker/
-  - docker pull dxjoke/tectonic-docker
-  # Compiling only main.tex:
-  - docker run --mount src=$TRAVIS_BUILD_DIR/src,target=/usr/src/tex,type=bind dxjoke/tectonic-docker /bin/sh -c "tectonic main.tex"
+- docker pull dxjoke/tectonic-docker
+- docker run --mount src=$TRAVIS_BUILD_DIR/src,target=/usr/src/tex,type=bind dxjoke/tectonic-docker
+  /bin/sh -c "tectonic main.tex"
+deploy:
+  provider: releases
+  api_key:
+    secure: pN8CmuLMOwbBH07oHG9ioZy1YkAyoCFFmcd/vIbpohSbpFpk/qLwnaYm2myPW8PpoaNf3LmNOmD0h/8YdEoLZf6uSdp8lVzlrLU6nU5Y1CaTdNcPkDFClblzmjjz08NiA8DrPR8000FrU9sPg6c53wvUNYoKhc49hZvbbRbW3Yu4cLkuyv/5/2P6uVYeuQ2sU9HHdIMTivOcc0KWZADtDX/mGta+NGL7I7Urtgp3sFl4L7xvBltV6ht9vcOHvI2fslsxXhA1nEO74smorcCHVeYpUt7scuUvm4wiAlfwD2+d1R2qSDSHz9mHysTj9Eg/2Wy2adOF6ptwUCNGumM8PTHXF+gxdL6pxtGO6ynH+TflXIcJjBMPl2nYuJz+ttW0HOuRd15g5ltgVVWpv9zO+2DpzGcRZriDlonh8m/V+WebVv54ilfKv/Pae2J10e1AXUqjo73QVpLp2adD/moPq60GesWbnkGfxpKznqDMRRiQ5VUMIFLI/mxLf+Bo8k0oABoxz6LaMcipmC0w1cAm56tTNbcawxOFpz9vGwaQXKZIMWIRTKJsVaePMphTWdpT2JIqgrtLeva1VUfrQ5tpxsEUvTxK1xRFcoaNbBztoVcEWbd6UPEjsD/7Y72AfuMfNFYBoEIqhDA3Pj5YGu/GEZ5z0YvL6HniygEA6INAtdk=
+  file: ./src/main.pdf
+  on:
+    tags: true
+    branch: master
